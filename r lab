@@ -1,0 +1,120 @@
+a) With and without R objects on console
+
+# Without objects
+10 + 5
+10 - 5
+10 * 5
+10 / 5
+
+# With objects
+a <- 10
+b <- 5
+a + b
+a - b
+a * b
+a / b
+
+
+b) Using mathematical functions
+
+sqrt(16)
+exp(2)
+log(10)
+sin(pi/2)
+cos(pi/3)
+
+
+c) R script to create objects and save in disk
+
+a <- 15
+b <- 3
+result <- a + b
+save(result, file="C:/Users/YourName/Documents/result.RData")
+
+
+d) Packages
+
+# Just load basic packages
+library(tidyr)
+library(ggplot2)
+library(ggraph)
+library(glue)
+library(shiny)
+
+📌 Week 3: Descriptive Statistics
+
+a) Using summary
+
+data <- c(10,20,30,40,50)
+summary(data)
+
+
+b) Using subset
+
+df <- data.frame(id=1:5, age=c(18,25,30,22,40))
+subset(df, age > 25)
+
+📌 Week 4: Reading and Writing Datasets
+
+a) Read & write
+
+# From disk
+data <- read.csv("C:/Users/YourName/Documents/sample.csv")
+write.csv(data, "C:/Users/YourName/Documents/output.csv")
+
+# From web
+url <- "https://people.sc.fsu.edu/~jburkardt/data/csv/hw_200.csv"
+webdata <- read.csv(url)
+
+
+b) Excel
+
+library(readxl)
+exceldata <- read_excel("C:/Users/YourName/Documents/sample.xlsx")
+
+
+c) XML
+
+library(XML)
+xmldata <- xmlParse("C:/Users/YourName/Documents/sample.xml")
+
+📌 Week 5–6: Visualizations
+
+a) Box & Scatter plot
+
+x <- c(1,2,3,4,5)
+y <- c(2,4,6,8,10)
+boxplot(y)
+plot(x,y)
+
+
+b) Outliers
+
+boxplot(y) # Outliers shown as dots
+
+
+c) Histogram, Bar, Pie
+
+hist(y)
+barplot(y)
+pie(c(10,20,30))
+
+📌 Week 7: Correlation & Covariance
+
+a) Correlation Matrix on iris
+
+data(iris)
+cor(iris[,1:4])
+
+
+b) Correlation Plot
+
+library(corrplot)
+cor_mat <- cor(iris[,1:4])
+corrplot(cor_mat, method="circle")
+
+
+c) ANOVA
+
+anova_model <- aov(Sepal.Length ~ Species, data=iris)
+summary(anova_model)
