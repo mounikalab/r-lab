@@ -1,0 +1,70 @@
+public class RailFenceCipher {
+
+    // Encrypt using Rail Fence
+    public static String encrypt(String text, int key) {
+        if (key == 1) return text;
+
+        StringBuilder[] rail = new StringBuilder[key];
+        for (int i = 0; i < key; i++) rail[i] = new StringBuilder();
+
+        int dir = 1, row = 0;
+        for (char c : text.toCharArray()) {
+            rail[row].append(c);
+            row += dir;
+            if (row == 0 || row == key - 1) dir *= -1;
+        }
+
+        StringBuilder res = new StringBuilder();
+        for (StringBuilder sb : rail) res.append(sb);
+        return res.toString();
+    }
+
+    // Decrypt Rail Fence
+    public static String decrypt(String cipher, int key) {
+        if (key == 1) return cipher;
+
+        boolean[][] mark = new boolean[key][cipher.length()];
+        int dir = 1, row = 0;
+
+        // Mark positions in zigzag
+        for (int col = 0; col < cipher.length(); col++) {
+            mark[row][col] = true;
+            row += dir;
+            if (row == 0 || row == key - 1) dir *= -1;
+        }
+
+        // Fill cipher text
+        char[][] rail = new char[key][cipher.length()];
+        int idx = 0;
+        for (int i = 0; i < key; i++) {
+            for (int j = 0; j < cipher.length(); j++) {
+                if (mark[i][j] && idx < cipher.length()) {
+                    rail[i][j] = cipher.charAt(idx++);
+                }
+            }
+        }
+
+        // Read zigzag
+        StringBuilder res = new StringBuilder();
+        row = 0; dir = 1;
+        for (int col = 0; col < cipher.length(); col++) {
+            res.append(rail[row][col]);
+            row += dir;
+            if (row == 0 || row == key - 1) dir *= -1;
+        }
+
+        return res.toString();
+    }
+
+    public static void main(String[] args) {
+        String text = "HELLO WORLD";
+        int key = 3;
+
+        String encrypted = encrypt(text.replace(" ", ""), key);
+        String decrypted = decrypt(encrypted, key);
+
+        System.out.println("Plaintext : " + text);
+        System.out.println("Encrypted : " + encrypted);
+        System.out.println("Decrypted : " + decrypted);
+    }
+}
