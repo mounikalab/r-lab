@@ -1,0 +1,55 @@
+public class RowColumnCipher {
+
+    // Encrypt using row-column transposition
+    public static String encrypt(String text, int row, int col) {
+        text = text.replaceAll(" ", "").toUpperCase();
+        while (text.length() < row * col) text += "X"; // padding
+
+        char[][] matrix = new char[row][col];
+        int k = 0;
+
+        // Fill row by row
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < col; j++)
+                matrix[i][j] = text.charAt(k++);
+
+        // Read column by column
+        StringBuilder cipher = new StringBuilder();
+        for (int j = 0; j < col; j++)
+            for (int i = 0; i < row; i++)
+                cipher.append(matrix[i][j]);
+
+        return cipher.toString();
+    }
+
+    // Decrypt row-column transposition
+    public static String decrypt(String cipher, int row, int col) {
+        char[][] matrix = new char[row][col];
+        int k = 0;
+
+        // Fill column by column
+        for (int j = 0; j < col; j++)
+            for (int i = 0; i < row; i++)
+                matrix[i][j] = cipher.charAt(k++);
+
+        // Read row by row
+        StringBuilder plain = new StringBuilder();
+        for (int i = 0; i < row; i++)
+            for (int j = 0; j < col; j++)
+                plain.append(matrix[i][j]);
+
+        return plain.toString();
+    }
+
+    public static void main(String[] args) {
+        String text = "HELLO WORLD";
+        int row = 3, col = 4;
+
+        String encrypted = encrypt(text, row, col);
+        String decrypted = decrypt(encrypted, row, col);
+
+        System.out.println("Plaintext : " + text);
+        System.out.println("Encrypted : " + encrypted);
+        System.out.println("Decrypted : " + decrypted);
+    }
+}
